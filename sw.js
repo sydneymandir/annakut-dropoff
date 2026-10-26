@@ -1,6 +1,6 @@
 // Saves the Annakut drop-off guide on the visitor's phone the first time it opens,
 // so it keeps working with no signal at all on the day.
-const CACHE = 'annakut-dropoff-v7';            // bump this when content changes
+const CACHE = 'annakut-dropoff-v8';            // bump this when content changes
 const CORE  = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
 // sharper zoom map and photos: fetched in the background, never block the guide
 const EXTRA = ['./campus-map-zoom.webp'];
