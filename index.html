@@ -55,9 +55,11 @@ header.top small{display:block;font-size:.72rem;font-weight:500;opacity:.8;white
 h2.sec{font-size:1.05rem;color:var(--maroon);margin:20px 0 10px}
 
 /* day tabs */
-.days{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
-.day{min-height:58px;padding:6px 4px;border-radius:14px;border:1.5px solid var(--line);background:var(--paper);font-weight:700;line-height:1.2;display:grid;place-items:center;text-align:center;position:relative;overflow-wrap:anywhere}
+.days{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 8px}
+@media (min-width:520px){.days{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.day{min-height:64px;padding:8px 4px 6px;border-radius:14px;border:1.5px solid var(--line);background:var(--paper);font-weight:700;line-height:1.2;display:grid;place-items:center;text-align:center;position:relative;overflow-wrap:anywhere}
 .day[aria-pressed="true"]{background:var(--maroon);border-color:var(--maroon);color:#fff}
+.day small{display:block;font-weight:600;font-size:.8rem;opacity:.85;margin-top:2px}
 .day .tag{position:absolute;top:-9px;left:50%;transform:translateX(-50%);background:var(--ok);color:#fff;font-size:.66rem;padding:1px 8px;border-radius:999px;white-space:nowrap}
 
 /* place card */
@@ -71,6 +73,16 @@ h2.sec{font-size:1.05rem;color:var(--maroon);margin:20px 0 10px}
 :is(:lang(hi),:lang(gu),:lang(ne)) .times b{text-transform:none;letter-spacing:0;font-size:.9rem}
 .times ul{margin:4px 0 0;padding:0;list-style:none;font-size:1.15rem;font-weight:800}
 .times .tbc{margin:4px 0 0;font-weight:600;color:#6d4b2b}
+.items{margin-top:10px;padding:12px 14px;border-radius:12px;background:#EEF6F0;border:1px solid #CFE6D7;display:grid;grid-template-columns:24px 1fr;gap:10px}
+.items.no{background:#FFF1EE;border-color:#F3CFC6}
+.items svg{width:22px;height:22px;stroke:#2E7D4F;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;margin-top:2px}
+.items.no svg{stroke:#B3412E}
+.items b{display:block;font-size:.8rem;color:var(--muted)}
+.items span{font-weight:700}
+.status{align-items:flex-start}
+.status .dot{margin-top:7px}
+.status .rule{display:block;font-weight:600;font-size:.92rem;margin-top:2px}
+.status .rule.no{color:#A3361F}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:0 16px;border-radius:999px;border:1.5px solid var(--maroon);background:var(--paper);color:var(--maroon);font-weight:700;text-decoration:none}
 .btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .btn.solid{background:var(--maroon);color:#fff}
@@ -173,7 +185,7 @@ footer{padding:22px 0 calc(env(safe-area-inset-bottom,0px) + 30px);text-align:ce
 
 <main id="homeView" hidden>
   <div class="wrap">
-    <div class="status" id="status" role="status"><span class="dot"></span><span id="statusText"></span></div>
+    <div class="status" id="status" role="status"><span class="dot"></span><span><span id="statusText"></span><span class="rule" id="statusRule"></span></span></div>
     <p class="intro" data-t="intro"></p>
 
     <h2 class="sec" data-t="dayChoose"></h2>
@@ -181,7 +193,8 @@ footer{padding:22px 0 calc(env(safe-area-inset-bottom,0px) + 30px);text-align:ce
 
     <section class="place" aria-live="polite">
       <div class="head"><span class="star" aria-hidden="true">★</span><div><h3 id="pName"></h3><div class="sub" id="pSub"></div></div></div>
-      <div class="times"><b data-t="timeL"></b><ul id="timeList"></ul><p class="tbc" id="timeTbc" data-t="timeTBC" hidden></p></div>
+      <div class="times"><b data-t="timeL"></b><ul id="timeList"></ul></div>
+      <div class="items" id="items"><svg viewBox="0 0 24 24" aria-hidden="true"><path id="itemsIcon" d="M5 12.5 10 17 19 7"/></svg><div><b data-t="itemsL"></b><span id="itemsText"></span></div></div>
       <button class="btn small" data-say="plan"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg><span data-t="listen" class="lbl">Listen</span></button>
     </section>
   </div>
@@ -242,22 +255,38 @@ const INFO = {
 
 const CONTENT = {
 en:{ ui:{
+  d1:"Sat 31 Oct",
+  d2:"Fri 6 Nov",
+  d3:"Sun 8 Nov",
+  d4:"Tue 10 Nov",
+  dl1:"Saturday 31 October",
+  dl2:"Friday 6 November",
+  dl3:"Sunday 8 November",
+  dl4:"Tuesday 10 November",
+  o1:"Kids Diwali",
+  o2:"Dhanteras",
+  o3:"Diwali",
+  o4:"Annakut Day",
+  rDry:"Dry items only. No sweets and no fresh items.",
+  rDryAll:"All dry items welcome.",
+  rAll:"All items welcome.",
+  itemsL:"What you can bring",
+  stNext:"Next drop-off: {d} ({o}), {t}",
+  stToday:"Today ({o}): drop-off {t}",
+  stOpen:"Drop-off open now ({o}) until {e}",
+  timeL:"Drop-off time",
+  whereL:"Where",
   title:"Annakut Items Drop-off",
   sub:"BAPS Shri Swaminarayan Mandir, Kemps Creek",
   chooseLang:"Choose your language",
   intro:"Bringing Annakut items to the Mandir? Choose your day, then follow the route from the Entry Gate to the drop-off point.",
   dayChoose:"Choose your drop-off day",
-  d1:"Sat 31 Oct", d2:"Sat 7 Nov", d3:"Sun 8 Nov",
-  dl1:"Saturday 31 October", dl2:"Saturday 7 November", dl3:"Sunday 8 November",
   today:"Today",
-  stNext:"Next drop-off: {d}",
-  stToday:"Today: {p}",
   stDone:"Annakut drop-off has finished. Thank you for your seva!",
   closedT:"Annakut drop-off has finished",
   closed:"Thank you to everyone who brought Annakut items. Jay Swaminarayan!",
-  timeL:"Drop-off times",
   timeTBC:"Times will be added here soon.",
-  pA:"Drop-off Zone at the Mandir front", pAs:"On Kids Diwali day",
+  pA:"Drop-off Zone at the Mandir front", pAs:"Just north of the Mandir entrance",
   pB:"Mandir Basement", pBs:"Entry and exit by the basement ramp",
   routeT:"Your route",
   tapStep:"Tap a step to see it on the map.",
@@ -281,22 +310,38 @@ en:{ ui:{
   offline:"Works offline", online:"Online", lang:"Language"
 }},
 hi:{ ui:{
+  d1:"शनि, 31 अक्टू",
+  d2:"शुक्र, 6 नवं",
+  d3:"रवि, 8 नवं",
+  d4:"मंगल, 10 नवं",
+  dl1:"शनिवार, 31 अक्टूबर",
+  dl2:"शुक्रवार, 6 नवंबर",
+  dl3:"रविवार, 8 नवंबर",
+  dl4:"मंगलवार, 10 नवंबर",
+  o1:"किड्स दिवाली",
+  o2:"धनतेरस",
+  o3:"दिवाली",
+  o4:"अन्नकूट दिवस",
+  rDry:"केवल सूखी सामग्री। मिठाई और ताज़ी सामग्री नहीं।",
+  rDryAll:"सभी सूखी सामग्री स्वीकार है।",
+  rAll:"सभी सामग्री स्वीकार है।",
+  itemsL:"आप क्या ला सकते हैं",
+  stNext:"अगला ड्रॉप-ऑफ: {d} ({o}), {t}",
+  stToday:"आज ({o}): ड्रॉप-ऑफ {t}",
+  stOpen:"ड्रॉप-ऑफ अभी खुला है ({o}), {e} तक",
+  timeL:"ड्रॉप-ऑफ का समय",
+  whereL:"कहाँ",
   title:"अन्नकूट सामग्री ड्रॉप-ऑफ",
   sub:"बीएपीएस श्री स्वामिनारायण मंदिर, केम्प्स क्रीक",
   chooseLang:"अपनी भाषा चुनें",
   intro:"मंदिर में अन्नकूट सामग्री ला रहे हैं? अपना दिन चुनें, फिर प्रवेश द्वार से ड्रॉप-ऑफ स्थान तक दिए गए रास्ते का पालन करें।",
   dayChoose:"अपना ड्रॉप-ऑफ दिन चुनें",
-  d1:"शनि, 31 अक्टूबर", d2:"शनि, 7 नवंबर", d3:"रवि, 8 नवंबर",
-  dl1:"शनिवार, 31 अक्टूबर", dl2:"शनिवार, 7 नवंबर", dl3:"रविवार, 8 नवंबर",
   today:"आज",
-  stNext:"अगला ड्रॉप-ऑफ: {d}",
-  stToday:"आज: {p}",
   stDone:"अन्नकूट ड्रॉप-ऑफ पूरा हो गया है। आपकी सेवा के लिए धन्यवाद!",
   closedT:"अन्नकूट ड्रॉप-ऑफ पूरा हो गया है",
   closed:"अन्नकूट सामग्री लाने वाले सभी भक्तों का धन्यवाद। जय स्वामिनारायण!",
-  timeL:"ड्रॉप-ऑफ का समय",
   timeTBC:"समय जल्द ही यहाँ जोड़ा जाएगा।",
-  pA:"मंदिर के सामने ड्रॉप-ऑफ ज़ोन", pAs:"किड्स दिवाली के दिन",
+  pA:"मंदिर के सामने ड्रॉप-ऑफ ज़ोन", pAs:"मंदिर प्रवेश के ठीक उत्तर में",
   pB:"मंदिर का बेसमेंट", pBs:"बेसमेंट रैंप से आना और जाना",
   routeT:"आपका रास्ता",
   tapStep:"नक्शे पर देखने के लिए किसी चरण पर टैप करें।",
@@ -320,22 +365,38 @@ hi:{ ui:{
   offline:"बिना इंटरनेट भी चलता है", online:"ऑनलाइन", lang:"भाषा"
 }},
 gu:{ ui:{
+  d1:"શનિ, 31 ઑક્ટો",
+  d2:"શુક્ર, 6 નવે",
+  d3:"રવિ, 8 નવે",
+  d4:"મંગળ, 10 નવે",
+  dl1:"શનિવાર, 31 ઑક્ટોબર",
+  dl2:"શુક્રવાર, 6 નવેમ્બર",
+  dl3:"રવિવાર, 8 નવેમ્બર",
+  dl4:"મંગળવાર, 10 નવેમ્બર",
+  o1:"કિડ્સ દિવાળી",
+  o2:"ધનતેરસ",
+  o3:"દિવાળી",
+  o4:"અન્નકૂટ દિન",
+  rDry:"માત્ર સૂકી સામગ્રી. મીઠાઈ અને તાજી સામગ્રી નહીં.",
+  rDryAll:"બધી સૂકી સામગ્રી સ્વીકાર્ય છે.",
+  rAll:"બધી સામગ્રી સ્વીકાર્ય છે.",
+  itemsL:"તમે શું લાવી શકો",
+  stNext:"આગામી ડ્રોપ-ઓફ: {d} ({o}), {t}",
+  stToday:"આજે ({o}): ડ્રોપ-ઓફ {t}",
+  stOpen:"ડ્રોપ-ઓફ હમણાં ચાલુ છે ({o}), {e} સુધી",
+  timeL:"ડ્રોપ-ઓફનો સમય",
+  whereL:"ક્યાં",
   title:"અન્નકૂટ સામગ્રી ડ્રોપ-ઓફ",
   sub:"બીએપીએસ શ્રી સ્વામિનારાયણ મંદિર, કેમ્પ્સ ક્રીક",
   chooseLang:"તમારી ભાષા પસંદ કરો",
   intro:"મંદિરમાં અન્નકૂટ સામગ્રી લાવો છો? તમારો દિવસ પસંદ કરો, પછી પ્રવેશ દ્વારથી ડ્રોપ-ઓફ સ્થળ સુધીનો રસ્તો અનુસરો.",
   dayChoose:"તમારો ડ્રોપ-ઓફ દિવસ પસંદ કરો",
-  d1:"શનિ, 31 ઑક્ટોબર", d2:"શનિ, 7 નવેમ્બર", d3:"રવિ, 8 નવેમ્બર",
-  dl1:"શનિવાર, 31 ઑક્ટોબર", dl2:"શનિવાર, 7 નવેમ્બર", dl3:"રવિવાર, 8 નવેમ્બર",
   today:"આજે",
-  stNext:"આગામી ડ્રોપ-ઓફ: {d}",
-  stToday:"આજે: {p}",
   stDone:"અન્નકૂટ ડ્રોપ-ઓફ પૂર્ણ થયું છે. આપની સેવા બદલ આભાર!",
   closedT:"અન્નકૂટ ડ્રોપ-ઓફ પૂર્ણ થયું છે",
   closed:"અન્નકૂટ સામગ્રી લાવનાર સૌ ભક્તોનો આભાર. જય સ્વામિનારાયણ!",
-  timeL:"ડ્રોપ-ઓફનો સમય",
   timeTBC:"સમય ટૂંક સમયમાં અહીં ઉમેરાશે.",
-  pA:"મંદિરની સામે ડ્રોપ-ઓફ ઝોન", pAs:"કિડ્સ દિવાળીના દિવસે",
+  pA:"મંદિરની સામે ડ્રોપ-ઓફ ઝોન", pAs:"મંદિર પ્રવેશની બરાબર ઉત્તરે",
   pB:"મંદિરનું બેઝમેન્ટ", pBs:"બેઝમેન્ટ રેમ્પથી આવવું અને જવું",
   routeT:"તમારો રસ્તો",
   tapStep:"નકશા પર જોવા માટે કોઈ પગલા પર ટૅપ કરો.",
@@ -359,22 +420,38 @@ gu:{ ui:{
   offline:"ઇન્ટરનેટ વગર પણ ચાલે છે", online:"ઓનલાઇન", lang:"ભાષા"
 }},
 ne:{ ui:{
+  d1:"शनि, 31 अक्टो",
+  d2:"शुक्र, 6 नोभे",
+  d3:"आइत, 8 नोभे",
+  d4:"मंगल, 10 नोभे",
+  dl1:"शनिबार, 31 अक्टोबर",
+  dl2:"शुक्रबार, 6 नोभेम्बर",
+  dl3:"आइतबार, 8 नोभेम्बर",
+  dl4:"मंगलबार, 10 नोभेम्बर",
+  o1:"किड्स दिवाली",
+  o2:"धनतेरस",
+  o3:"दिवाली",
+  o4:"अन्नकूट दिवस",
+  rDry:"सुख्खा सामग्री मात्र। मिठाई र ताजा सामग्री होइन।",
+  rDryAll:"सबै सुख्खा सामग्री स्वीकार्य छ।",
+  rAll:"सबै सामग्री स्वीकार्य छ।",
+  itemsL:"तपाईं के ल्याउन सक्नुहुन्छ",
+  stNext:"अर्को ड्रप-अफ: {d} ({o}), {t}",
+  stToday:"आज ({o}): ड्रप-अफ {t}",
+  stOpen:"ड्रप-अफ अहिले खुला छ ({o}), {e} सम्म",
+  timeL:"ड्रप-अफ समय",
+  whereL:"कहाँ",
   title:"अन्नकूट सामग्री ड्रप-अफ",
   sub:"बीएपीएस श्री स्वामिनारायण मन्दिर, केम्प्स क्रिक",
   chooseLang:"आफ्नो भाषा छान्नुहोस्",
   intro:"मन्दिरमा अन्नकूट सामग्री ल्याउँदै हुनुहुन्छ? आफ्नो दिन छान्नुहोस्, अनि प्रवेशद्वारदेखि ड्रप-अफ स्थानसम्मको बाटो पछ्याउनुहोस्।",
   dayChoose:"आफ्नो ड्रप-अफ दिन छान्नुहोस्",
-  d1:"शनि, 31 अक्टोबर", d2:"शनि, 7 नोभेम्बर", d3:"आइत, 8 नोभेम्बर",
-  dl1:"शनिबार, 31 अक्टोबर", dl2:"शनिबार, 7 नोभेम्बर", dl3:"आइतबार, 8 नोभेम्बर",
   today:"आज",
-  stNext:"अर्को ड्रप-अफ: {d}",
-  stToday:"आज: {p}",
   stDone:"अन्नकूट ड्रप-अफ सकियो। तपाईंको सेवाका लागि धन्यवाद!",
   closedT:"अन्नकूट ड्रप-अफ सकियो",
   closed:"अन्नकूट सामग्री ल्याउनुहुने सबै भक्तहरूलाई धन्यवाद। जय स्वामिनारायण!",
-  timeL:"ड्रप-अफ समय",
   timeTBC:"समय छिट्टै यहाँ थपिनेछ।",
-  pA:"मन्दिरको अगाडि ड्रप-अफ जोन", pAs:"किड्स दिवालीको दिन",
+  pA:"मन्दिरको अगाडि ड्रप-अफ जोन", pAs:"मन्दिर प्रवेशको ठीक उत्तरमा",
   pB:"मन्दिरको बेसमेन्ट", pBs:"बेसमेन्ट र्‍याम्पबाट आउने र जाने",
   routeT:"तपाईंको बाटो",
   tapStep:"नक्सामा हेर्न कुनै चरणमा ट्याप गर्नुहोस्।",
@@ -400,11 +477,12 @@ ne:{ ui:{
 };
 
 
-/* ===== Drop-off days (Sydney dates). Add times as text, e.g. ["9:00 am – 1:00 pm"]; leave [] to show "times coming soon". ===== */
+/* ===== Drop-off days (Sydney dates and 24-hour times). occ = occasion name key, rule = what can be brought. ===== */
 const DAYS = [
-  { id:"d1", date:"2026-10-31", plan:"A", times:[] },
-  { id:"d2", date:"2026-11-07", plan:"B", times:[] },
-  { id:"d3", date:"2026-11-08", plan:"B", times:[] }
+  { id:"d1", date:"2026-10-31", start:"12:00", end:"17:00", plan:"A", occ:"o1", rule:"rDry" },
+  { id:"d2", date:"2026-11-06", start:"16:30", end:"19:00", plan:"B", occ:"o2", rule:"rDryAll" },
+  { id:"d3", date:"2026-11-08", start:"15:00", end:"19:00", plan:"B", occ:"o3", rule:"rDryAll" },
+  { id:"d4", date:"2026-11-10", start:"06:00", end:"09:00", plan:"B", occ:"o4", rule:"rAll" }
 ];
 const LIVE_UNTIL = "2026-11-10";   // after this Sydney date the guide shows a "finished, thank you" page
 
@@ -431,12 +509,20 @@ function sydToday(){
   try{return new Intl.DateTimeFormat("en-CA",{timeZone:"Australia/Sydney",year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date())}
   catch(e){const d=new Date(Date.now()+11*3600e3);return d.toISOString().slice(0,10)}
 }
+function sydTime(){
+  const q=new URLSearchParams(location.search).get("time"); if(q&&/^\d{2}:\d{2}$/.test(q)) return q;
+  try{return new Intl.DateTimeFormat("en-GB",{timeZone:"Australia/Sydney",hour:"2-digit",minute:"2-digit",hour12:false}).format(new Date()).replace(/^24/,"00")}
+  catch(e){return new Date(Date.now()+11*3600e3).toISOString().slice(11,16)}
+}
+function fmtT(t){let [h,m]=t.split(":").map(Number);const ap=h>=12?"pm":"am";h=h%12||12;return h+":"+String(m).padStart(2,"0")+" "+ap}
+const span=d=>fmtT(d.start)+" – "+fmtT(d.end);
+const isPast=(d,today,now)=>d.date<today||(d.date===today&&now>=d.end);
 const dayIdx=d=>DAYS.indexOf(d)+1;
 const dayLabel=(d,long)=>ui((long?"dl":"d")+dayIdx(d));
 
 function defaultDay(today){
   const h=location.hash.slice(1), byHash=DAYS.find(d=>d.id===h); if(byHash) return byHash;
-  return DAYS.find(d=>d.date===today)||DAYS.find(d=>d.date>today)||DAYS[DAYS.length-1];
+  const now=sydTime(); return DAYS.find(d=>!isPast(d,today,now))||DAYS[DAYS.length-1];
 }
 
 function pct(p){return `left:${p[0]/MAPW*100}%;top:${p[1]/MAPH*100}%`}
@@ -469,17 +555,27 @@ function render(){
   $("closedView").hidden=true; $("homeView").hidden=false;
   if(!day) day=defaultDay(today);
   /* status line */
-  const td=DAYS.find(d=>d.date===today), nx=DAYS.find(d=>d.date>today), st=$("status");
-  st.classList.toggle("live",!!td);
-  $("statusText").textContent= td?ui("stToday",{p:ui(PLANS[td.plan].name)}) : nx?ui("stNext",{d:dayLabel(nx,true)}) : ui("stDone");
+  const now=sydTime(), cur=DAYS.find(d=>!isPast(d,today,now)), st=$("status");
+  const where=d=>ui(PLANS[d.plan].name);
+  st.classList.toggle("live",!!cur&&cur.date===today);
+  if(!cur){$("statusText").textContent=ui("stDone");$("statusRule").textContent=""}
+  else{
+    const o=ui(cur.occ);
+    $("statusText").textContent= cur.date!==today ? ui("stNext",{d:dayLabel(cur,true),o,t:span(cur)})+" · "+where(cur)
+      : now<cur.start ? ui("stToday",{o,t:span(cur)})+" · "+where(cur) : ui("stOpen",{o,e:fmtT(cur.end)})+" · "+where(cur);
+    $("statusRule").textContent=ui(cur.rule);
+    $("statusRule").classList.toggle("no",cur.rule==="rDry");
+  }
   /* day tabs */
-  $("days").innerHTML=DAYS.map(d=>`<button class="day" data-day="${d.id}" aria-pressed="${d===day}">${d.date===today?`<span class="tag">${ui("today")}</span>`:""}${dayLabel(d)}</button>`).join("");
+  $("days").innerHTML=DAYS.map(d=>`<button class="day" data-day="${d.id}" aria-pressed="${d===day}">${d.date===today?`<span class="tag">${ui("today")}</span>`:""}<span>${dayLabel(d)}<small>${ui(d.occ)}</small></span></button>`).join("");
   /* place card */
   const P=PLANS[day.plan];
   $("pName").textContent=ui(P.name);
-  $("pSub").textContent=dayLabel(day,true)+" · "+ui(P.sub);
-  $("timeList").innerHTML=day.times.map(t=>`<li>${t}</li>`).join("");
-  $("timeTbc").hidden=day.times.length>0;
+  $("pSub").textContent=dayLabel(day,true)+" · "+ui(day.occ)+" · "+ui(P.sub);
+  $("timeList").innerHTML=`<li>${span(day)}</li>`;
+  $("itemsText").textContent=ui(day.rule);
+  $("items").classList.toggle("no",day.rule==="rDry");
+  $("itemsIcon").setAttribute("d",day.rule==="rDry"?"M12 3a9 9 0 1 0 0 18a9 9 0 1 0 0-18M12 7.5v6M12 16.5v.5":"M5 12.5 10 17 19 7");
   /* steps */
   const pre=day.plan;
   $("steps").innerHTML=[1,2,3,4,5].map(i=>`<li class="${i===4?"last":""}"><button data-step="${i-1}" aria-current="${step===i-1}"><span class="n">${i===4?"★":i}</span><span>${ui(pre+i)}</span></button></li>`).join("");
@@ -524,7 +620,7 @@ function pickVoice(){
 function stopSpeech(){try{speechSynthesis.cancel()}catch(e){} if(speakingBtn){speakingBtn.querySelector(".lbl").textContent=ui("listen");speakingBtn.setAttribute("aria-pressed","false")} speakingBtn=null}
 function sayText(){
   const end=t=>/[.।?!]$/.test(t.trim())?t:t+(lang==="en"?".":"।"), P=PLANS[day.plan];
-  const parts=[ui(P.name), dayLabel(day,true), ui("timeL")+": "+(day.times.length?day.times.join(", "):ui("timeTBC"))];
+  const parts=[ui(P.name), dayLabel(day,true)+", "+ui(day.occ), ui("timeL")+": "+span(day).replace(/am/g,"a.m.").replace(/pm/g,"p.m."), ui("itemsL")+": "+ui(day.rule)];
   for(let i=1;i<=5;i++) parts.push(i+". "+ui(day.plan+i));
   parts.push(ui(P.note));
   return parts.map(end).join(" ").replace(/–/g," to ");
