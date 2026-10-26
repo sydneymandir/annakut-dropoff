@@ -50,7 +50,8 @@ header.top small{display:block;font-size:.72rem;font-weight:500;opacity:.8;white
 .status.live{background:#E9F6EE;border-color:#BFE3CC;color:#1F5A38}
 .status.live .dot{background:var(--ok);box-shadow:0 0 0 0 rgba(46,125,79,.5);animation:pulse 1.8s infinite}
 @keyframes pulse{70%{box-shadow:0 0 0 10px rgba(46,125,79,0)}100%{box-shadow:0 0 0 0 rgba(46,125,79,0)}}
-.intro{margin:12px 0 0;color:var(--muted)}
+.intro{margin:12px 0 0;padding:12px 14px 12px 12px;display:grid;grid-template-columns:24px 1fr;gap:10px;align-items:start;background:var(--paper);border:1px solid var(--line);border-left:5px solid var(--saffron);border-radius:14px;color:var(--ink);font-weight:600;box-shadow:0 2px 8px rgba(60,30,20,.05)}
+.intro svg{width:22px;height:22px;stroke:var(--maroon);fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;margin-top:1px}
 h2.sec{font-size:1.05rem;color:var(--maroon);margin:20px 0 10px}
 
 /* day tabs */
@@ -192,7 +193,7 @@ footer{padding:22px 0 calc(env(safe-area-inset-bottom,0px) + 30px);text-align:ce
 <main id="homeView" hidden>
   <div class="wrap">
     <div class="status" id="status" role="status"><span class="dot"></span><span><span id="statusText"></span><span class="rule" id="statusRule"></span></span></div>
-    <p class="intro" data-t="intro"></p>
+    <div class="intro"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.5v.5"/></svg><span data-t="intro"></span></div>
 
     <h2 class="sec" data-t="dayChoose"></h2>
     <div class="days" id="days"></div>
@@ -286,7 +287,7 @@ en:{ ui:{
   title:"Annakut Items Drop-off",
   sub:"BAPS Shri Swaminarayan Mandir, Kemps Creek",
   chooseLang:"Choose your language",
-  intro:"Bringing Annakut items to the Mandir? Choose your day, then follow the route from the Entry Gate to the drop-off point.",
+  intro:"Select the day based on your items and scroll down for the route of the drop-off zone on the campus.",
   dayChoose:"Choose your drop-off day",
   today:"Today",
   stDone:"Annakut drop-off has finished. Thank you for your seva!",
@@ -342,7 +343,7 @@ hi:{ ui:{
   title:"अन्नकूट सामग्री ड्रॉप-ऑफ",
   sub:"बीएपीएस श्री स्वामिनारायण मंदिर, केम्प्स क्रीक",
   chooseLang:"अपनी भाषा चुनें",
-  intro:"मंदिर में अन्नकूट सामग्री ला रहे हैं? अपना दिन चुनें, फिर प्रवेश द्वार से ड्रॉप-ऑफ स्थान तक दिए गए रास्ते का पालन करें।",
+  intro:"अपनी सामग्री के अनुसार दिन चुनें और परिसर में ड्रॉप-ऑफ ज़ोन का रास्ता देखने के लिए नीचे स्क्रॉल करें।",
   dayChoose:"अपना ड्रॉप-ऑफ दिन चुनें",
   today:"आज",
   stDone:"अन्नकूट ड्रॉप-ऑफ पूरा हो गया है। आपकी सेवा के लिए धन्यवाद!",
@@ -398,7 +399,7 @@ gu:{ ui:{
   title:"અન્નકૂટ સામગ્રી ડ્રોપ-ઓફ",
   sub:"બીએપીએસ શ્રી સ્વામિનારાયણ મંદિર, કેમ્પ્સ ક્રીક",
   chooseLang:"તમારી ભાષા પસંદ કરો",
-  intro:"મંદિરમાં અન્નકૂટ સામગ્રી લાવો છો? તમારો દિવસ પસંદ કરો, પછી પ્રવેશ દ્વારથી ડ્રોપ-ઓફ સ્થળ સુધીનો રસ્તો અનુસરો.",
+  intro:"તમારી સામગ્રી પ્રમાણે દિવસ પસંદ કરો અને કેમ્પસમાં ડ્રોપ-ઓફ ઝોનનો રસ્તો જોવા માટે નીચે સ્ક્રોલ કરો.",
   dayChoose:"તમારો ડ્રોપ-ઓફ દિવસ પસંદ કરો",
   today:"આજે",
   stDone:"અન્નકૂટ ડ્રોપ-ઓફ પૂર્ણ થયું છે. આપની સેવા બદલ આભાર!",
@@ -454,7 +455,7 @@ ne:{ ui:{
   title:"अन्नकूट सामग्री ड्रप-अफ",
   sub:"बीएपीएस श्री स्वामिनारायण मन्दिर, केम्प्स क्रिक",
   chooseLang:"आफ्नो भाषा छान्नुहोस्",
-  intro:"मन्दिरमा अन्नकूट सामग्री ल्याउँदै हुनुहुन्छ? आफ्नो दिन छान्नुहोस्, अनि प्रवेशद्वारदेखि ड्रप-अफ स्थानसम्मको बाटो पछ्याउनुहोस्।",
+  intro:"आफ्नो सामग्री अनुसार दिन छान्नुहोस् र परिसरमा ड्रप-अफ जोनसम्मको बाटो हेर्न तल स्क्रोल गर्नुहोस्।",
   dayChoose:"आफ्नो ड्रप-अफ दिन छान्नुहोस्",
   today:"आज",
   stDone:"अन्नकूट ड्रप-अफ सकियो। तपाईंको सेवाका लागि धन्यवाद!",
