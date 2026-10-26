@@ -57,9 +57,13 @@ h2.sec{font-size:1.05rem;color:var(--maroon);margin:20px 0 10px}
 /* day tabs */
 .days{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 8px}
 @media (min-width:520px){.days{grid-template-columns:repeat(4,minmax(0,1fr))}}
-.day{min-height:64px;padding:8px 4px 6px;border-radius:14px;border:1.5px solid var(--line);background:var(--paper);font-weight:700;line-height:1.2;display:grid;place-items:center;text-align:center;position:relative;overflow-wrap:anywhere}
+.day{min-height:64px;padding:10px 6px 8px;border-radius:14px;border:1.5px solid var(--line);background:var(--paper);font-weight:700;line-height:1.2;display:grid;place-items:center;text-align:center;position:relative;overflow-wrap:anywhere}
 .day[aria-pressed="true"]{background:var(--maroon);border-color:var(--maroon);color:#fff}
 .day small{display:block;font-weight:600;font-size:.8rem;opacity:.85;margin-top:2px}
+.day small.tm{font-weight:700;opacity:1;font-size:.82rem}
+.day .it{display:inline-block;margin-top:5px;font-style:normal;font-size:.72rem;font-weight:700;line-height:1.25;padding:2px 8px;border-radius:999px;background:#E3F2E8;color:#1F5A38}
+.day .it.rDry{background:#FCE3DD;color:#97301B}
+.day[aria-pressed="true"] .it{background:rgba(255,255,255,.95)}
 .day .tag{position:absolute;top:-9px;left:50%;transform:translateX(-50%);background:var(--ok);color:#fff;font-size:.66rem;padding:1px 8px;border-radius:999px;white-space:nowrap}
 
 /* place card */
@@ -255,6 +259,7 @@ const INFO = {
 
 const CONTENT = {
 en:{ ui:{
+  sDry:"Dry only · no sweets or fresh", sDryAll:"All dry items", sAll:"All items",
   d1:"Sat 31 Oct",
   d2:"Fri 6 Nov",
   d3:"Sun 8 Nov",
@@ -310,6 +315,7 @@ en:{ ui:{
   offline:"Works offline", online:"Online", lang:"Language"
 }},
 hi:{ ui:{
+  sDry:"केवल सूखी · मिठाई/ताज़ी नहीं", sDryAll:"सभी सूखी सामग्री", sAll:"सभी सामग्री",
   d1:"शनि, 31 अक्टू",
   d2:"शुक्र, 6 नवं",
   d3:"रवि, 8 नवं",
@@ -365,6 +371,7 @@ hi:{ ui:{
   offline:"बिना इंटरनेट भी चलता है", online:"ऑनलाइन", lang:"भाषा"
 }},
 gu:{ ui:{
+  sDry:"માત્ર સૂકી · મીઠાઈ/તાજી નહીં", sDryAll:"બધી સૂકી સામગ્રી", sAll:"બધી સામગ્રી",
   d1:"શનિ, 31 ઑક્ટો",
   d2:"શુક્ર, 6 નવે",
   d3:"રવિ, 8 નવે",
@@ -420,6 +427,7 @@ gu:{ ui:{
   offline:"ઇન્ટરનેટ વગર પણ ચાલે છે", online:"ઓનલાઇન", lang:"ભાષા"
 }},
 ne:{ ui:{
+  sDry:"सुख्खा मात्र · मिठाई/ताजा होइन", sDryAll:"सबै सुख्खा सामग्री", sAll:"सबै सामग्री",
   d1:"शनि, 31 अक्टो",
   d2:"शुक्र, 6 नोभे",
   d3:"आइत, 8 नोभे",
@@ -567,7 +575,7 @@ function render(){
     $("statusRule").classList.toggle("no",cur.rule==="rDry");
   }
   /* day tabs */
-  $("days").innerHTML=DAYS.map(d=>`<button class="day" data-day="${d.id}" aria-pressed="${d===day}">${d.date===today?`<span class="tag">${ui("today")}</span>`:""}<span>${dayLabel(d)}<small>${ui(d.occ)}</small></span></button>`).join("");
+  $("days").innerHTML=DAYS.map(d=>`<button class="day" data-day="${d.id}" aria-pressed="${d===day}">${d.date===today?`<span class="tag">${ui("today")}</span>`:""}<span>${dayLabel(d)}<small>${ui(d.occ)}</small><small class="tm">${span(d)}</small><em class="it ${d.rule}">${ui("s"+d.rule.slice(1))}</em></span></button>`).join("");
   /* place card */
   const P=PLANS[day.plan];
   $("pName").textContent=ui(P.name);
