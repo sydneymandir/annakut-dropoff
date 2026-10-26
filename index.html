@@ -85,8 +85,10 @@ h2.sec{font-size:1.05rem;color:var(--maroon);margin:20px 0 10px}
 .items span{font-weight:700}
 .status{align-items:flex-start}
 .status .dot{margin-top:7px}
-.status .rule{display:block;font-weight:600;font-size:.92rem;margin-top:2px}
-.status .rule.no{color:#A3361F}
+.status .rule{display:inline;font-weight:800;font-size:.95rem;line-height:1.7;background:#FFE94D;color:var(--ink);padding:2px 6px;border-radius:4px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.status .rule.no{color:#8E1F10}
+.status .rule:not(:empty){margin-top:4px}
+#statusText{display:block;margin-bottom:4px}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:0 16px;border-radius:999px;border:1.5px solid var(--maroon);background:var(--paper);color:var(--maroon);font-weight:700;text-decoration:none}
 .btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .btn.solid{background:var(--maroon);color:#fff}
@@ -259,7 +261,7 @@ const INFO = {
 
 const CONTENT = {
 en:{ ui:{
-  sDry:"Dry only · no sweets or fresh", sDryAll:"All dry items", sAll:"All items",
+  sDry:"Dry only · no sweets or fresh", sDryAll:"Only dry items", sAll:"All items",
   d1:"Sat 31 Oct",
   d2:"Fri 6 Nov",
   d3:"Sun 8 Nov",
@@ -273,7 +275,7 @@ en:{ ui:{
   o3:"Diwali",
   o4:"Annakut Day",
   rDry:"Dry items only. No sweets and no fresh items.",
-  rDryAll:"All dry items welcome.",
+  rDryAll:"Only dry items.",
   rAll:"All items welcome.",
   itemsL:"What you can bring",
   stNext:"Next drop-off: {d} ({o}), {t}",
@@ -315,7 +317,7 @@ en:{ ui:{
   offline:"Works offline", online:"Online", lang:"Language"
 }},
 hi:{ ui:{
-  sDry:"केवल सूखी · मिठाई/ताज़ी नहीं", sDryAll:"सभी सूखी सामग्री", sAll:"सभी सामग्री",
+  sDry:"केवल सूखी · मिठाई/ताज़ी नहीं", sDryAll:"केवल सूखी सामग्री", sAll:"सभी सामग्री",
   d1:"शनि, 31 अक्टू",
   d2:"शुक्र, 6 नवं",
   d3:"रवि, 8 नवं",
@@ -329,7 +331,7 @@ hi:{ ui:{
   o3:"दिवाली",
   o4:"अन्नकूट दिवस",
   rDry:"केवल सूखी सामग्री। मिठाई और ताज़ी सामग्री नहीं।",
-  rDryAll:"सभी सूखी सामग्री स्वीकार है।",
+  rDryAll:"केवल सूखी सामग्री।",
   rAll:"सभी सामग्री स्वीकार है।",
   itemsL:"आप क्या ला सकते हैं",
   stNext:"अगला ड्रॉप-ऑफ: {d} ({o}), {t}",
@@ -371,7 +373,7 @@ hi:{ ui:{
   offline:"बिना इंटरनेट भी चलता है", online:"ऑनलाइन", lang:"भाषा"
 }},
 gu:{ ui:{
-  sDry:"માત્ર સૂકી · મીઠાઈ/તાજી નહીં", sDryAll:"બધી સૂકી સામગ્રી", sAll:"બધી સામગ્રી",
+  sDry:"માત્ર સૂકી · મીઠાઈ/તાજી નહીં", sDryAll:"માત્ર સૂકી સામગ્રી", sAll:"બધી સામગ્રી",
   d1:"શનિ, 31 ઑક્ટો",
   d2:"શુક્ર, 6 નવે",
   d3:"રવિ, 8 નવે",
@@ -385,7 +387,7 @@ gu:{ ui:{
   o3:"દિવાળી",
   o4:"અન્નકૂટ દિન",
   rDry:"માત્ર સૂકી સામગ્રી. મીઠાઈ અને તાજી સામગ્રી નહીં.",
-  rDryAll:"બધી સૂકી સામગ્રી સ્વીકાર્ય છે.",
+  rDryAll:"માત્ર સૂકી સામગ્રી.",
   rAll:"બધી સામગ્રી સ્વીકાર્ય છે.",
   itemsL:"તમે શું લાવી શકો",
   stNext:"આગામી ડ્રોપ-ઓફ: {d} ({o}), {t}",
@@ -427,7 +429,7 @@ gu:{ ui:{
   offline:"ઇન્ટરનેટ વગર પણ ચાલે છે", online:"ઓનલાઇન", lang:"ભાષા"
 }},
 ne:{ ui:{
-  sDry:"सुख्खा मात्र · मिठाई/ताजा होइन", sDryAll:"सबै सुख्खा सामग्री", sAll:"सबै सामग्री",
+  sDry:"सुख्खा मात्र · मिठाई/ताजा होइन", sDryAll:"सुख्खा सामग्री मात्र", sAll:"सबै सामग्री",
   d1:"शनि, 31 अक्टो",
   d2:"शुक्र, 6 नोभे",
   d3:"आइत, 8 नोभे",
@@ -441,7 +443,7 @@ ne:{ ui:{
   o3:"दिवाली",
   o4:"अन्नकूट दिवस",
   rDry:"सुख्खा सामग्री मात्र। मिठाई र ताजा सामग्री होइन।",
-  rDryAll:"सबै सुख्खा सामग्री स्वीकार्य छ।",
+  rDryAll:"सुख्खा सामग्री मात्र।",
   rAll:"सबै सामग्री स्वीकार्य छ।",
   itemsL:"तपाईं के ल्याउन सक्नुहुन्छ",
   stNext:"अर्को ड्रप-अफ: {d} ({o}), {t}",
