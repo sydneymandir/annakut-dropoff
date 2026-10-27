@@ -314,7 +314,7 @@ en:{ ui:{
   nogo:"No public access<br>Construction zone",
   mapLabel:"Route map", fullMap:"Full map", fsHint:"Drag to move · pinch to zoom",
   dirBtn:"Directions to the Mandir", addrL:"Address",
-  listen:"Listen", stop:"Stop", noSpeech:"Read-aloud not available", noVoice:"No voice for this language",
+  listen:"Listen", stop:"Stop", noSpeech:"Read-aloud not available", noVoice:"Voice not saved yet. Connect to the internet once.",
   offline:"Works offline", online:"Online", lang:"Language"
 }},
 hi:{ ui:{
@@ -370,7 +370,7 @@ hi:{ ui:{
   nogo:"सार्वजनिक प्रवेश नहीं<br>निर्माण क्षेत्र",
   mapLabel:"रास्ते का नक्शा", fullMap:"पूरा नक्शा", fsHint:"खिसकाएँ · ज़ूम के लिए दो उँगलियाँ",
   dirBtn:"मंदिर तक का रास्ता", addrL:"पता",
-  listen:"सुनें", stop:"रोकें", noSpeech:"सुनने की सुविधा उपलब्ध नहीं", noVoice:"इस भाषा की आवाज़ उपलब्ध नहीं",
+  listen:"सुनें", stop:"रोकें", noSpeech:"सुनने की सुविधा उपलब्ध नहीं", noVoice:"आवाज़ अभी सहेजी नहीं गई। एक बार इंटरनेट से जुड़ें।",
   offline:"बिना इंटरनेट भी चलता है", online:"ऑनलाइन", lang:"भाषा"
 }},
 gu:{ ui:{
@@ -426,7 +426,7 @@ gu:{ ui:{
   nogo:"જાહેર પ્રવેશ નથી<br>બાંધકામ વિસ્તાર",
   mapLabel:"રસ્તાનો નકશો", fullMap:"પૂરો નકશો", fsHint:"ખસેડો · ઝૂમ માટે બે આંગળી",
   dirBtn:"મંદિર સુધીનો રસ્તો", addrL:"સરનામું",
-  listen:"સાંભળો", stop:"બંધ કરો", noSpeech:"સાંભળવાની સુવિધા ઉપલબ્ધ નથી", noVoice:"આ ભાષાનો અવાજ ઉપલબ્ધ નથી",
+  listen:"સાંભળો", stop:"બંધ કરો", noSpeech:"સાંભળવાની સુવિધા ઉપલબ્ધ નથી", noVoice:"અવાજ હજી સચવાયો નથી. એકવાર ઇન્ટરનેટથી જોડાઓ.",
   offline:"ઇન્ટરનેટ વગર પણ ચાલે છે", online:"ઓનલાઇન", lang:"ભાષા"
 }},
 ne:{ ui:{
@@ -482,7 +482,7 @@ ne:{ ui:{
   nogo:"सार्वजनिक प्रवेश छैन<br>निर्माण क्षेत्र",
   mapLabel:"बाटोको नक्सा", fullMap:"पूरा नक्सा", fsHint:"सार्नुहोस् · जुमका लागि दुई औंला",
   dirBtn:"मन्दिरसम्मको बाटो", addrL:"ठेगाना",
-  listen:"सुन्नुहोस्", stop:"रोक्नुहोस्", noSpeech:"सुन्ने सुविधा उपलब्ध छैन", noVoice:"यो भाषाको आवाज उपलब्ध छैन",
+  listen:"सुन्नुहोस्", stop:"रोक्नुहोस्", noSpeech:"सुन्ने सुविधा उपलब्ध छैन", noVoice:"आवाज अझै सुरक्षित भएन। एक पटक इन्टरनेट जोड्नुहोस्।",
   offline:"इन्टरनेटबिना पनि चल्छ", online:"अनलाइन", lang:"भाषा"
 }}
 };
@@ -555,6 +555,7 @@ function scrollMapTo(p,smooth){
 }
 
 function render(){
+  try{preloadVoice()}catch(e){}
   document.documentElement.lang=lang;
   $("langShort").textContent=(LANGS.find(l=>l.code===lang)||LANGS[0]).short;
   document.querySelectorAll("[data-t]").forEach(e=>e.textContent=ui(e.dataset.t));
@@ -621,33 +622,61 @@ function showLang(){
 }
 $("langBtn").onclick=()=>{stopSpeech();showLang()};
 
-/* ===== read aloud (phone's own voices) ===== */
-let speakingBtn=null;
-function pickVoice(){
-  const meta=LANGS.find(l=>l.code===lang)||LANGS[0], vs=speechSynthesis.getVoices();
-  for(const want of meta.speech){const v=vs.find(v=>v.lang.replace("_","-").toLowerCase()===want.toLowerCase())||vs.find(v=>v.lang.toLowerCase().startsWith(want.toLowerCase()));if(v)return{voice:v,none:false}}
-  return{voice:null,none:vs.length>0};
+/* ===== Recorded male voice: the same natural voice on every phone, works offline once saved =====
+   Each Listen text is pre-recorded as audio/<lang>/<hash>.mp3 (hash of the exact text).
+   Played from a blob so iPhones also play it from the offline copy. */
+const VOICE={a:null,url:null,token:0};
+function vnorm(s){return String(s).replace(/\s+/g," ").trim()}
+function vhash(s){s=vnorm(s);let h=0x811c9dc5;for(const ch of s){h^=ch.codePointAt(0);h=Math.imul(h,16777619)>>>0}return h.toString(36)}
+function voiceUrl(text){return "audio/"+lang+"/"+vhash(text)+".mp3"}
+function stopVoice(){VOICE.token++;if(VOICE.a){try{VOICE.a.pause()}catch(e){}VOICE.a=null}if(VOICE.url){URL.revokeObjectURL(VOICE.url);VOICE.url=null}}
+async function playVoice(text,onend){
+  stopVoice(); const my=VOICE.token;
+  try{
+    const r=await fetch(voiceUrl(text)); if(!r.ok) throw 0;
+    const b=await r.blob(); if(my!==VOICE.token) return;
+    VOICE.url=URL.createObjectURL(b); const a=new Audio(VOICE.url); VOICE.a=a;
+    a.onended=()=>{if(my===VOICE.token){stopVoice();onend(null)}};
+    a.onerror=()=>{if(my===VOICE.token){stopVoice();onend("err")}};
+    await a.play();
+  }catch(e){ if(my===VOICE.token){stopVoice();onend("err")} }
 }
-function stopSpeech(){try{speechSynthesis.cancel()}catch(e){} if(speakingBtn){speakingBtn.querySelector(".lbl").textContent=ui("listen");speakingBtn.setAttribute("aria-pressed","false")} speakingBtn=null}
-function sayText(){
-  const end=t=>/[.।?!]$/.test(t.trim())?t:t+(lang==="en"?".":"।"), P=PLANS[day.plan];
-  const parts=[ui(P.name), dayLabel(day,true)+", "+ui(day.occ), ui("timeL")+": "+span(day).replace(/am/g,"a.m.").replace(/pm/g,"p.m."), ui("itemsL")+": "+ui(day.rule)];
-  for(let i=1;i<=5;i++) parts.push(i+". "+ui(day.plan+i));
+/* save this language's recordings in the background, so Listen works with no signal */
+let voicePre={};
+function preloadVoice(){
+  if(!lang||voicePre[lang]||!navigator.onLine) return; voicePre[lang]=1; const L0=lang;
+  const go=async()=>{try{
+    const m=await (await fetch("audio/manifest.json")).json(); const list=m[L0]||[];
+    for(const h of list){ try{await fetch("audio/"+L0+"/"+h+".mp3")}catch(e){} await new Promise(r=>setTimeout(r,150)) }
+  }catch(e){voicePre[L0]=0}};
+  (window.requestIdleCallback||((f)=>setTimeout(f,2500)))(go);
+}
+
+let speakingBtn=null;
+function stopSpeech(){stopVoice(); if(speakingBtn){speakingBtn.querySelector(".lbl").textContent=ui("listen");speakingBtn.setAttribute("aria-pressed","false")} speakingBtn=null}
+/* times as people say them in each language */
+function sayTime(t){
+  let [h,m]=t.split(":").map(Number); const h12=h%12||12;
+  if(lang==="en") return h===12&&!m?"12 noon":h12+(m?":"+String(m).padStart(2,"0"):"")+(h<12?" a.m.":" p.m.");
+  const per={hi:["सुबह","दोपहर","शाम"],gu:["સવારે","બપોરે","સાંજે"],ne:["बिहान","दिउँसो","साँझ"]}[lang], p=per[h<12?0:h<16?1:2];
+  if(lang==="hi") return p+" "+h12+(m?" बजकर "+m+" मिनट":" बजे");
+  if(lang==="gu") return p+" "+h12+(m?" વાગીને "+m+" મિનિટે":" વાગ્યે");
+  return p+" "+h12+(m?" बजेर "+m+" मिनेटमा":" बजे");
+}
+function saySpan(d){const a=sayTime(d.start),b=sayTime(d.end);return lang==="en"?a+" to "+b:lang==="hi"?a+" से "+b+" तक":lang==="gu"?a+" થી "+b+" સુધી":a+" देखि "+b+" सम्म"}
+function sayText(d){
+  d=d||day; const end=t=>/[.।?!]$/.test(t.trim())?t:t+(lang==="en"?".":"।"), P=PLANS[d.plan];
+  const parts=[ui(P.name), dayLabel(d,true)+", "+ui(d.occ), ui("timeL")+": "+saySpan(d), ui("itemsL")+": "+ui(d.rule)];
+  for(let i=1;i<=5;i++) parts.push(ui(d.plan+i));
   parts.push(ui(P.note));
-  return parts.map(end).join(" ").replace(/–/g," to ");
+  return vnorm(parts.map(end).join(" "));
 }
 document.addEventListener("click",e=>{
   const btn=e.target.closest("[data-say]"); if(!btn) return;
   if(speakingBtn===btn){stopSpeech();return}
-  stopSpeech();
-  if(!("speechSynthesis" in window)){btn.querySelector(".lbl").textContent=ui("noSpeech");return}
-  const pv=pickVoice(); if(pv.none){btn.querySelector(".lbl").textContent=ui("noVoice");return}
-  const meta=LANGS.find(l=>l.code===lang)||LANGS[0], u=new SpeechSynthesisUtterance(sayText());
-  u.lang=pv.voice?pv.voice.lang:meta.speech[0]; if(pv.voice)u.voice=pv.voice; u.rate=.95;
-  u.onend=u.onerror=()=>{if(speakingBtn===btn)stopSpeech()};
-  speechSynthesis.speak(u); speakingBtn=btn; btn.querySelector(".lbl").textContent=ui("stop"); btn.setAttribute("aria-pressed","true");
+  stopSpeech(); speakingBtn=btn; btn.querySelector(".lbl").textContent=ui("stop"); btn.setAttribute("aria-pressed","true");
+  playVoice(sayText(),err=>{if(speakingBtn===btn){speakingBtn=null;btn.setAttribute("aria-pressed","false");btn.querySelector(".lbl").textContent=err?ui("noVoice"):ui("listen")}});
 });
-try{speechSynthesis.getVoices();speechSynthesis.onvoiceschanged=()=>{}}catch(e){}
 
 function net(){$("net").textContent=ui("offline")}
 
