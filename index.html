@@ -55,8 +55,7 @@ header.top small{display:block;font-size:.72rem;font-weight:500;opacity:.8;white
 h2.sec{font-size:1.05rem;color:var(--maroon);margin:20px 0 10px}
 
 /* day tabs */
-.days{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 8px}
-@media (min-width:520px){.days{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.days{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px 6px}
 .day{min-height:64px;padding:10px 6px 8px;border-radius:14px;border:1.5px solid var(--line);background:var(--paper);font-weight:700;line-height:1.2;display:grid;place-items:center;text-align:center;position:relative;overflow-wrap:anywhere}
 .day[aria-pressed="true"]{background:var(--maroon);border-color:var(--maroon);color:#fff}
 .day small{display:block;font-weight:600;font-size:.8rem;opacity:.85;margin-top:2px}
@@ -262,20 +261,16 @@ const INFO = {
 
 const CONTENT = {
 en:{ ui:{
-  sDry:"Dry only · no sweets or fresh", sDryAll:"Only dry items", sAll:"All items",
-  d1:"Sat 31 Oct",
+  sDryAll:"Only dry items", sAll:"All items",
   d2:"Fri 6 Nov",
   d3:"Sun 8 Nov",
   d4:"Tue 10 Nov",
-  dl1:"Saturday 31 October",
   dl2:"Friday 6 November",
   dl3:"Sunday 8 November",
   dl4:"Tuesday 10 November",
-  o1:"Kids Diwali",
   o2:"Dhanteras",
   o3:"Diwali",
   o4:"Annakut Day",
-  rDry:"Dry items only. No sweets and no fresh items.",
   rDryAll:"Only dry items.",
   rAll:"All items welcome.",
   itemsL:"What you can bring",
@@ -294,23 +289,16 @@ en:{ ui:{
   closedT:"Annakut drop-off has finished",
   closed:"Thank you to everyone who brought Annakut items. Jay Swaminarayan!",
   timeTBC:"Times will be added here soon.",
-  pA:"Drop-off Zone at the Mandir Front Corner", pAs:"Park on the road, then walk to the corner of the Mandir building",
   pB:"Mandir Basement", pBs:"Entry and exit by the basement ramp",
   routeT:"Your route",
   tapStep:"Tap a step to see it on the map.",
-  A1:"Enter through the Entry Gate on Aldington Road.",
-  A2:"Drive straight along the campus road, with the gardens and the Mandir on your right.",
-  A3:"Go straight past the side road (do not turn into the lane). Park in the parking bays on your left, along the road beside the Mandir.",
-  A4:"Walk across to the Annakut Drop-off Zone at the corner of the Mandir building and hand your items to the volunteers.",
-  A5:"Return to your car and park it in a proper parking bay as instructed by the Parking Volunteers, OR follow the EXIT path to go out of the campus if you are not staying for the Kids Diwali event.",
   B1:"Enter through the Entry Gate on Aldington Road.",
   B2:"Drive straight along the campus road, past the front of the Mandir, with the Mandir on your right.",
   B3:"At the second Mandir building, turn right down the ramp into the basement.",
   B4:"Drop off your Annakut items in the basement. Volunteers will help you unload.",
   B5:"Drive back up the same ramp and leave through the Entry Gate.",
-  noteA:"It is Kids Diwali day, with many children on campus. Please drive slowly, cross the road carefully and follow the volunteers.",
   noteB:"Please drive slowly and follow the volunteers' directions.",
-  gate:"Entry Gate", dropA:"Drop-off Zone", dropB:"Basement entry & exit",
+  gate:"Entry Gate", dropB:"Basement entry & exit",
   nogo:"No public access<br>Construction zone",
   mapLabel:"Route map", fullMap:"Full map", fsHint:"Drag to move · pinch to zoom",
   dirBtn:"Directions to the Mandir", addrL:"Address",
@@ -318,20 +306,16 @@ en:{ ui:{
   offline:"Works offline", online:"Online", lang:"Language"
 }},
 hi:{ ui:{
-  sDry:"केवल सूखी · मिठाई/ताज़ी नहीं", sDryAll:"केवल सूखी सामग्री", sAll:"सभी सामग्री",
-  d1:"शनि, 31 अक्टू",
+  sDryAll:"केवल सूखी सामग्री", sAll:"सभी सामग्री",
   d2:"शुक्र, 6 नवं",
   d3:"रवि, 8 नवं",
   d4:"मंगल, 10 नवं",
-  dl1:"शनिवार, 31 अक्टूबर",
   dl2:"शुक्रवार, 6 नवंबर",
   dl3:"रविवार, 8 नवंबर",
   dl4:"मंगलवार, 10 नवंबर",
-  o1:"किड्स दिवाली",
   o2:"धनतेरस",
   o3:"दिवाली",
   o4:"अन्नकूट दिवस",
-  rDry:"केवल सूखी सामग्री। मिठाई और ताज़ी सामग्री नहीं।",
   rDryAll:"केवल सूखी सामग्री।",
   rAll:"सभी सामग्री स्वीकार है।",
   itemsL:"आप क्या ला सकते हैं",
@@ -350,23 +334,16 @@ hi:{ ui:{
   closedT:"अन्नकूट ड्रॉप-ऑफ पूरा हो गया है",
   closed:"अन्नकूट सामग्री लाने वाले सभी भक्तों का धन्यवाद। जय स्वामिनारायण!",
   timeTBC:"समय जल्द ही यहाँ जोड़ा जाएगा।",
-  pA:"मंदिर के सामने वाले कोने पर ड्रॉप-ऑफ ज़ोन", pAs:"सड़क पर पार्क करें, फिर पैदल मंदिर भवन के कोने तक जाएँ",
   pB:"मंदिर का बेसमेंट", pBs:"बेसमेंट रैंप से आना और जाना",
   routeT:"आपका रास्ता",
   tapStep:"नक्शे पर देखने के लिए किसी चरण पर टैप करें।",
-  A1:"एल्डिंगटन रोड पर स्थित प्रवेश द्वार (Entry Gate) से अंदर आएँ।",
-  A2:"परिसर की सड़क पर सीधे चलें; बगीचे और मंदिर आपकी दाईं ओर रहेंगे।",
-  A3:"बगल वाली सड़क पर न मुड़ें, सीधे चलते रहें। अपनी बाईं ओर, मंदिर के पास सड़क किनारे की पार्किंग में गाड़ी पार्क करें।",
-  A4:"पैदल मंदिर भवन के कोने पर स्थित अन्नकूट ड्रॉप-ऑफ ज़ोन तक जाएँ और स्वयंसेवकों को अपनी सामग्री सौंपें।",
-  A5:"अपनी गाड़ी पर लौटें और पार्किंग स्वयंसेवकों के निर्देशानुसार उचित पार्किंग स्थान पर गाड़ी पार्क करें, या यदि आप किड्स दिवाली कार्यक्रम में नहीं रुक रहे हैं, तो निकास मार्ग से परिसर से बाहर जाएँ।",
   B1:"एल्डिंगटन रोड पर स्थित प्रवेश द्वार (Entry Gate) से अंदर आएँ।",
   B2:"परिसर की सड़क पर मंदिर के सामने से सीधे आगे बढ़ें; मंदिर आपकी दाईं ओर रहेगा।",
   B3:"मंदिर की दूसरी इमारत के पास दाईं ओर मुड़कर रैंप से नीचे बेसमेंट में जाएँ।",
   B4:"बेसमेंट में अपनी अन्नकूट सामग्री जमा करें। स्वयंसेवक सामान उतारने में मदद करेंगे।",
   B5:"उसी रैंप से ऊपर आएँ और प्रवेश द्वार से बाहर जाएँ।",
-  noteA:"आज किड्स दिवाली है और परिसर में बहुत से बच्चे होंगे। कृपया धीरे चलाएँ, सड़क सावधानी से पार करें और स्वयंसेवकों के निर्देशों का पालन करें।",
   noteB:"कृपया धीरे चलाएँ और स्वयंसेवकों के निर्देशों का पालन करें।",
-  gate:"प्रवेश द्वार", dropA:"ड्रॉप-ऑफ ज़ोन", dropB:"बेसमेंट आना-जाना",
+  gate:"प्रवेश द्वार", dropB:"बेसमेंट आना-जाना",
   nogo:"सार्वजनिक प्रवेश नहीं<br>निर्माण क्षेत्र",
   mapLabel:"रास्ते का नक्शा", fullMap:"पूरा नक्शा", fsHint:"खिसकाएँ · ज़ूम के लिए दो उँगलियाँ",
   dirBtn:"मंदिर तक का रास्ता", addrL:"पता",
@@ -374,20 +351,16 @@ hi:{ ui:{
   offline:"बिना इंटरनेट भी चलता है", online:"ऑनलाइन", lang:"भाषा"
 }},
 gu:{ ui:{
-  sDry:"માત્ર સૂકી · મીઠાઈ/તાજી નહીં", sDryAll:"માત્ર સૂકી સામગ્રી", sAll:"બધી સામગ્રી",
-  d1:"શનિ, 31 ઑક્ટો",
+  sDryAll:"માત્ર સૂકી સામગ્રી", sAll:"બધી સામગ્રી",
   d2:"શુક્ર, 6 નવે",
   d3:"રવિ, 8 નવે",
   d4:"મંગળ, 10 નવે",
-  dl1:"શનિવાર, 31 ઑક્ટોબર",
   dl2:"શુક્રવાર, 6 નવેમ્બર",
   dl3:"રવિવાર, 8 નવેમ્બર",
   dl4:"મંગળવાર, 10 નવેમ્બર",
-  o1:"કિડ્સ દિવાળી",
   o2:"ધનતેરસ",
   o3:"દિવાળી",
   o4:"અન્નકૂટ દિન",
-  rDry:"માત્ર સૂકી સામગ્રી. મીઠાઈ અને તાજી સામગ્રી નહીં.",
   rDryAll:"માત્ર સૂકી સામગ્રી.",
   rAll:"બધી સામગ્રી સ્વીકાર્ય છે.",
   itemsL:"તમે શું લાવી શકો",
@@ -406,23 +379,16 @@ gu:{ ui:{
   closedT:"અન્નકૂટ ડ્રોપ-ઓફ પૂર્ણ થયું છે",
   closed:"અન્નકૂટ સામગ્રી લાવનાર સૌ ભક્તોનો આભાર. જય સ્વામિનારાયણ!",
   timeTBC:"સમય ટૂંક સમયમાં અહીં ઉમેરાશે.",
-  pA:"મંદિરના આગળના ખૂણે ડ્રોપ-ઓફ ઝોન", pAs:"રસ્તા પર પાર્ક કરો, પછી ચાલીને મંદિરની ઇમારતના ખૂણે જાઓ",
   pB:"મંદિરનું બેઝમેન્ટ", pBs:"બેઝમેન્ટ રેમ્પથી આવવું અને જવું",
   routeT:"તમારો રસ્તો",
   tapStep:"નકશા પર જોવા માટે કોઈ પગલા પર ટૅપ કરો.",
-  A1:"એલ્ડિંગ્ટન રોડ પરના પ્રવેશ દ્વાર (Entry Gate)થી અંદર આવો.",
-  A2:"કેમ્પસના રસ્તા પર સીધા જાઓ; બગીચા અને મંદિર તમારી જમણી બાજુ રહેશે.",
-  A3:"બાજુના રસ્તે વળશો નહીં, સીધા આગળ જાઓ. તમારી ડાબી બાજુ, મંદિર પાસે રસ્તાની બાજુની પાર્કિંગમાં ગાડી પાર્ક કરો.",
-  A4:"ચાલીને મંદિરની ઇમારતના ખૂણે આવેલા અન્નકૂટ ડ્રોપ-ઓફ ઝોન પર જાઓ અને સ્વયંસેવકોને તમારી સામગ્રી આપો.",
-  A5:"તમારી ગાડી પર પાછા ફરો અને પાર્કિંગ સ્વયંસેવકોની સૂચના મુજબ યોગ્ય પાર્કિંગ જગ્યાએ ગાડી પાર્ક કરો, અથવા જો તમે કિડ્સ દિવાળી કાર્યક્રમમાં રોકાવાના ન હો, તો બહાર નીકળવાના માર્ગે કેમ્પસમાંથી બહાર નીકળો.",
   B1:"એલ્ડિંગ્ટન રોડ પરના પ્રવેશ દ્વાર (Entry Gate)થી અંદર આવો.",
   B2:"કેમ્પસના રસ્તા પર મંદિરની સામેથી સીધા આગળ જાઓ; મંદિર તમારી જમણી બાજુ રહેશે.",
   B3:"મંદિરની બીજી ઇમારત પાસે જમણી બાજુ વળીને રેમ્પથી નીચે બેઝમેન્ટમાં જાઓ.",
   B4:"બેઝમેન્ટમાં તમારી અન્નકૂટ સામગ્રી જમા કરાવો. સ્વયંસેવકો સામાન ઉતારવામાં મદદ કરશે.",
   B5:"એ જ રેમ્પથી ઉપર આવો અને પ્રવેશ દ્વારથી બહાર નીકળો.",
-  noteA:"આજે કિડ્સ દિવાળી છે અને કેમ્પસમાં ઘણાં બાળકો હશે. કૃપા કરી ધીમે ચલાવો, રસ્તો સાવચેતીથી ઓળંગો અને સ્વયંસેવકોની સૂચનાઓ અનુસરો.",
   noteB:"કૃપા કરી ધીમે ચલાવો અને સ્વયંસેવકોની સૂચનાઓ અનુસરો.",
-  gate:"પ્રવેશ દ્વાર", dropA:"ડ્રોપ-ઓફ ઝોન", dropB:"બેઝમેન્ટ આવ-જા",
+  gate:"પ્રવેશ દ્વાર", dropB:"બેઝમેન્ટ આવ-જા",
   nogo:"જાહેર પ્રવેશ નથી<br>બાંધકામ વિસ્તાર",
   mapLabel:"રસ્તાનો નકશો", fullMap:"પૂરો નકશો", fsHint:"ખસેડો · ઝૂમ માટે બે આંગળી",
   dirBtn:"મંદિર સુધીનો રસ્તો", addrL:"સરનામું",
@@ -430,20 +396,16 @@ gu:{ ui:{
   offline:"ઇન્ટરનેટ વગર પણ ચાલે છે", online:"ઓનલાઇન", lang:"ભાષા"
 }},
 ne:{ ui:{
-  sDry:"सुख्खा मात्र · मिठाई/ताजा होइन", sDryAll:"सुख्खा सामग्री मात्र", sAll:"सबै सामग्री",
-  d1:"शनि, 31 अक्टो",
+  sDryAll:"सुख्खा सामग्री मात्र", sAll:"सबै सामग्री",
   d2:"शुक्र, 6 नोभे",
   d3:"आइत, 8 नोभे",
   d4:"मंगल, 10 नोभे",
-  dl1:"शनिबार, 31 अक्टोबर",
   dl2:"शुक्रबार, 6 नोभेम्बर",
   dl3:"आइतबार, 8 नोभेम्बर",
   dl4:"मंगलबार, 10 नोभेम्बर",
-  o1:"किड्स दिवाली",
   o2:"धनतेरस",
   o3:"दिवाली",
   o4:"अन्नकूट दिवस",
-  rDry:"सुख्खा सामग्री मात्र। मिठाई र ताजा सामग्री होइन।",
   rDryAll:"सुख्खा सामग्री मात्र।",
   rAll:"सबै सामग्री स्वीकार्य छ।",
   itemsL:"तपाईं के ल्याउन सक्नुहुन्छ",
@@ -462,23 +424,16 @@ ne:{ ui:{
   closedT:"अन्नकूट ड्रप-अफ सकियो",
   closed:"अन्नकूट सामग्री ल्याउनुहुने सबै भक्तहरूलाई धन्यवाद। जय स्वामिनारायण!",
   timeTBC:"समय छिट्टै यहाँ थपिनेछ।",
-  pA:"मन्दिरको अगाडिको कुनामा ड्रप-अफ जोन", pAs:"सडकमा पार्क गरेर पैदल मन्दिर भवनको कुनासम्म जानुहोस्",
   pB:"मन्दिरको बेसमेन्ट", pBs:"बेसमेन्ट र्‍याम्पबाट आउने र जाने",
   routeT:"तपाईंको बाटो",
   tapStep:"नक्सामा हेर्न कुनै चरणमा ट्याप गर्नुहोस्।",
-  A1:"एल्डिङटन रोडमा रहेको प्रवेशद्वार (Entry Gate) बाट भित्र आउनुहोस्।",
-  A2:"परिसरको सडकमा सिधा जानुहोस्; बगैंचा र मन्दिर तपाईंको दायाँपट्टि हुनेछन्।",
-  A3:"छेउको सडकमा नमोडिनुहोस्, सिधै अघि बढ्नुहोस्। आफ्नो बायाँपट्टि, मन्दिर नजिक सडक छेउको पार्किङमा गाडी पार्क गर्नुहोस्।",
-  A4:"पैदल मन्दिर भवनको कुनामा रहेको अन्नकूट ड्रप-अफ जोनमा गएर स्वयंसेवकहरूलाई आफ्नो सामग्री दिनुहोस्।",
-  A5:"आफ्नो गाडीमा फर्कनुहोस् र पार्किङ स्वयंसेवकहरूको निर्देशनअनुसार उचित पार्किङ स्थानमा गाडी पार्क गर्नुहोस्, वा यदि तपाईं किड्स दिवाली कार्यक्रममा बस्नुहुन्न भने निकास मार्ग हुँदै परिसरबाट बाहिर जानुहोस्।",
   B1:"एल्डिङटन रोडमा रहेको प्रवेशद्वार (Entry Gate) बाट भित्र आउनुहोस्।",
   B2:"परिसरको सडकमा मन्दिरको अगाडिबाट सिधा अघि बढ्नुहोस्; मन्दिर तपाईंको दायाँपट्टि हुनेछ।",
   B3:"मन्दिरको दोस्रो भवनमा पुगेपछि दायाँ मोडिएर र्‍याम्पबाट तल बेसमेन्टमा जानुहोस्।",
   B4:"बेसमेन्टमा आफ्नो अन्नकूट सामग्री जम्मा गर्नुहोस्। स्वयंसेवकहरूले सामान झार्न सहयोग गर्नुहुनेछ।",
   B5:"सोही र्‍याम्पबाट माथि आएर प्रवेशद्वारबाट बाहिर जानुहोस्।",
-  noteA:"आज किड्स दिवाली हो, परिसरमा धेरै बालबालिका हुनेछन्। कृपया बिस्तारै चलाउनुहोस्, सडक होसियारीसाथ पार गर्नुहोस् र स्वयंसेवकहरूको निर्देशन पालना गर्नुहोस्।",
   noteB:"कृपया बिस्तारै चलाउनुहोस् र स्वयंसेवकहरूको निर्देशन पालना गर्नुहोस्।",
-  gate:"प्रवेशद्वार", dropA:"ड्रप-अफ जोन", dropB:"बेसमेन्ट आउने-जाने",
+  gate:"प्रवेशद्वार", dropB:"बेसमेन्ट आउने-जाने",
   nogo:"सार्वजनिक प्रवेश छैन<br>निर्माण क्षेत्र",
   mapLabel:"बाटोको नक्सा", fullMap:"पूरा नक्सा", fsHint:"सार्नुहोस् · जुमका लागि दुई औंला",
   dirBtn:"मन्दिरसम्मको बाटो", addrL:"ठेगाना",
@@ -490,7 +445,6 @@ ne:{ ui:{
 
 /* ===== Drop-off days (Sydney dates and 24-hour times). occ = occasion name key, rule = what can be brought. ===== */
 const DAYS = [
-  { id:"d1", date:"2026-10-31", start:"12:00", end:"17:00", plan:"A", occ:"o1", rule:"rDry" },
   { id:"d2", date:"2026-11-06", start:"16:30", end:"19:00", plan:"B", occ:"o2", rule:"rDryAll" },
   { id:"d3", date:"2026-11-08", start:"15:00", end:"19:00", plan:"B", occ:"o3", rule:"rDryAll" },
   { id:"d4", date:"2026-11-10", start:"06:00", end:"09:00", plan:"B", occ:"o4", rule:"rAll" }
@@ -500,9 +454,6 @@ const LIVE_UNTIL = "2026-11-10";   // after this Sydney date the guide shows a "
 /* Map positions are pixels on the 5099 x 1353 drone map (same map as the campus tour). */
 const MAPW=5099, MAPH=1353, GATE=[281,160];
 const PLANS = {
-  A:{ name:"pA", sub:"pAs", note:"noteA", destKey:"dropA",
-      route:[[281,160],[1100,170],[1940,172],[2110,175],[2145,152]], walk:[[2145,152],[2075,205],[2062,240],[2068,280],[2140,305],[2208,306]], dest:[2218,310],
-      steps:[GATE,[1100,170],[2145,150],[2218,310],GATE] },
   B:{ name:"pB", sub:"pBs", note:"noteB", destKey:"dropB",
       route:[[281,160],[1940,172],[2700,168],[3015,168],[3018,262]], walk:null, dest:[3018,280],
       steps:[GATE,[2450,166],[2860,168],[3018,280],GATE] }
@@ -529,7 +480,7 @@ function fmtT(t){let [h,m]=t.split(":").map(Number);const ap=h>=12?"pm":"am";h=h
 const span=d=>fmtT(d.start)+" – "+fmtT(d.end);
 const isPast=(d,today,now)=>d.date<today||(d.date===today&&now>=d.end);
 const dayIdx=d=>DAYS.indexOf(d)+1;
-const dayLabel=(d,long)=>ui((long?"dl":"d")+dayIdx(d));
+const dayLabel=(d,long)=>ui((long?"dl":"d")+d.id.slice(1));
 
 function defaultDay(today){
   const h=location.hash.slice(1), byHash=DAYS.find(d=>d.id===h); if(byHash) return byHash;
